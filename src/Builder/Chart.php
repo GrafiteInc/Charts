@@ -100,7 +100,7 @@ class Chart
      *
      * @var int
      */
-    public $barWidth = 40;
+    public $barWidth = 1;
 
     /**
      * Chart type
