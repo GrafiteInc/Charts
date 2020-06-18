@@ -164,6 +164,9 @@ class Chart
                     [
                         'display' => $this->displayAxes,
                         'barPercentage' => $this->barWidth,
+                        'ticks' => [
+                            'beginAtZero' => $this->beginAtZero,
+                        ],
                     ]
                 ],
                 'yAxes' => [
