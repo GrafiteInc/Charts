@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.4.0] - 2020-06-18
+
+### Added
+- Ability to override options
+- Stub docblocks and options method
+
+### Fixed
+- Missing beginsAtZero for xAxes
+
 ## [v0.3.0] - 2020-06-18
 
 ### Fixed
