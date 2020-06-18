@@ -358,7 +358,9 @@ EOT;
 
     public function html()
     {
-        $this->handler();
+        if (is_null($this->id)) {
+            $this->handler();
+        }
 
         $opacity = ($this->loader) ? 1 : 0;
 
