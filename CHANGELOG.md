@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.4.1] - 2020-06-18
+
+### Fixed
+- Issue with bar width
+
 ## [v0.4.0] - 2020-06-18
 
 ### Added
