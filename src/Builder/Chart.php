@@ -206,6 +206,18 @@ class Chart
     }
 
     /**
+     * Return the formatted data for an API requst
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function apiResponse()
+    {
+        $this->handler();
+
+        return $this->formatDatasets();
+    }
+
+    /**
     * Make a dataset for the chart
     *
     * @param string $name

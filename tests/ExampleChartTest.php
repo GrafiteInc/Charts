@@ -21,4 +21,12 @@ class ExampleChartTest extends TestCase
         $chart = app(ExampleChart::class);
         $this->assertStringContainsString('Chart.js', $chart->cdn());
     }
+
+    public function testApiResponse()
+    {
+        $chart = app(ExampleChart::class);
+
+        $this->assertEquals('FooBar', $chart->apiResponse()[0]['label']);
+        $this->assertEquals('line', $chart->apiResponse()[0]['type']);
+    }
 }
