@@ -2,7 +2,7 @@
 
 **Charts** - A handy little ChartJS package for Laravel apps.
 
-[![PHP Package Tests](https://github.com/GrafiteInc/Charts/workflows/PHP%20Package%20Tests/badge.svg)](https://github.com/GrafiteInc/Charts/workflows/PHP%20Package%20Tests/badge.svg)
+[![PHP Package Tests](https://github.com/GrafiteInc/Charts/workflows/PHP%20Package%20Tests/badge.svg)](https://github.com/grafiteinc/charts/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1f78223f1c3e16b59229/maintainability)](https://codeclimate.com/github/GrafiteInc/Charts/maintainability)
 [![Packagist](https://img.shields.io/packagist/dt/grafite/charts.svg)](https://packagist.org/packages/grafite/charts)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/grafite/charts)
