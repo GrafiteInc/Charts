@@ -10,6 +10,14 @@ use Grafite\Charts\Builder\Dataset;
 
 class Chart
 {
+
+    /**
+     * ChartJS version
+     *
+     * @var string
+     */
+    public $version = '2.9.3';
+
     /**
      * Chart ID (set by default)
      *
@@ -241,6 +249,16 @@ class Chart
                 return $dataset->format($this->labels);
             })
             ->toArray();
+    }
+
+    /**
+     * CDN link
+     *
+     * @return string
+     */
+    public function cdn()
+    {
+        return "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/{$this->version}/Chart.min.js\" charset=\"utf-8\"></script>";
     }
 
     /**

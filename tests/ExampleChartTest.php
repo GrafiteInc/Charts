@@ -15,4 +15,10 @@ class ExampleChartTest extends TestCase
         $this->assertStringContainsString('FooBar', $chart->script());
         $this->assertStringContainsString('45,673,258', $chart->script());
     }
+
+    public function testCDNLink()
+    {
+        $chart = app(ExampleChart::class);
+        $this->assertStringContainsString('Chart.js', $chart->cdn());
+    }
 }
