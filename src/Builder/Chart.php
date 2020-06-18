@@ -149,7 +149,7 @@ class Chart
             $this->id = '_' . Str::random(32);
         }
 
-        $this->setOptions([
+        $this->options = [
             'title' => [
                 'display' => $this->displayTitle,
                 'fontFamily' => $this->titleAttributes['font_family'],
@@ -178,10 +178,12 @@ class Chart
             'legend' => [
                 'display' => $this->displayLegend,
             ],
-        ]);
+        ];
 
         $this->labels = $this->labels();
         $this->datasets = $this->datasets();
+
+        $this->setOptions($this->options());
 
         if (empty($this->labels)) {
             throw new Exception("Labels are required", 1);
@@ -239,11 +241,7 @@ class Chart
      */
     public function setOptions($options)
     {
-        $this->options = $options;
-
         $this->options = array_replace_recursive($this->options, $options);
-
-        return $this;
     }
 
     /**
@@ -422,6 +420,16 @@ EOT;
      * @return array
      */
     public function datasets()
+    {
+        return [];
+    }
+
+    /**
+     * Base options method for chart
+     *
+     * @return array
+     */
+    public function options()
     {
         return [];
     }
