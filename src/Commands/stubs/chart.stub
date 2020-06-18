@@ -1,0 +1,38 @@
+<?php
+
+namespace DummyNamespace;
+
+use Grafite\Charts\Builder\Chart;
+
+class DummyClass extends Chart
+{
+    public $title = null;
+
+    public $api_url = null;
+
+    public $loader = true;
+
+    public $loaderColor = '#187bcd';
+
+    public $displayLegend = false;
+
+    public $displayTitle = true;
+
+    public $height = '100%';
+
+    public $beginAtZero = true;
+
+    public $type = 'line';
+
+    public function labels()
+    {
+        return [];
+    }
+
+    public function datasets()
+    {
+        return [
+            $this->makeDataset('name', collect([])),
+        ];
+    }
+}
