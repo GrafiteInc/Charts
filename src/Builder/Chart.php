@@ -10,7 +10,6 @@ use Grafite\Charts\Builder\Dataset;
 
 class Chart
 {
-
     /**
      * ChartJS version
      *
@@ -187,10 +186,6 @@ class Chart
         $this->datasets = $this->datasets();
 
         $this->setOptions($this->options());
-
-        if (empty($this->labels)) {
-            throw new Exception("Labels are required", 1);
-        }
 
         if (empty($this->datasets)) {
             throw new Exception("Datasets are required", 1);
