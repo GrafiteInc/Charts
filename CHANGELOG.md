@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.4.2] - 2020-07-17
+
+### Fixed
+- Issue with empty arrays for labels
+
 ## [v0.4.1] - 2020-06-18
 
 ### Fixed
