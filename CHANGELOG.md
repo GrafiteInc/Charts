@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.4.5] - 2020-07-29
+
+### Fixed
+- Issue with height being defined as pixels
+
 ## [v0.4.4] - 2020-07-29
 
 ### Fixed
