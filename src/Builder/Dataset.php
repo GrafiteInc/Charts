@@ -2,9 +2,6 @@
 
 namespace Grafite\Charts\Builder;
 
-// use ConsoleTVs\Charts\Classes\DatasetClass;
-// use ConsoleTVs\Charts\Features\Chartjs\Dataset as DatasetFeatures;
-
 class Dataset
 {
     public $name = 'Uknown';

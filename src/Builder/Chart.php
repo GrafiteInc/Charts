@@ -313,6 +313,8 @@ if (!is_null($this->api_url)) {
                 .then(data => {
                     document.getElementById("{$this->id}_loader").style.display = 'none';
                     document.getElementById("{$this->id}").style.display = 'block';
+                    document.getElementById("{$this->id}").style.height = '{$this->height}px';
+                    document.getElementById("{$this->id}").style.width = '{$this->width}px';
                     {$this->id}.data.datasets = data;
                     {$this->id}.update();
                 });
