@@ -6,6 +6,8 @@ class ExampleChart extends Chart
 {
     public $title = 'Awesome Chart';
 
+    public $height = '367px';
+
     public function __construct()
     {
         // do what you need here with data

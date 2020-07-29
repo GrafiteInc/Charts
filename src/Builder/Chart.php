@@ -182,6 +182,14 @@ class Chart
             ],
         ];
 
+        if (! Str::contains($this->height, '%') && ! Str::contains($this->height, 'px')) {
+            $this->height = $this->height . 'px';
+        }
+
+        if (! Str::contains($this->width, '%') && ! Str::contains($this->width, 'px')) {
+            $this->width = $this->width . 'px';
+        }
+
         $this->labels = $this->labels();
         $this->datasets = $this->datasets();
 
@@ -311,8 +319,8 @@ if (!is_null($this->api_url)) {
                 .then(data => {
                     document.getElementById("{$this->id}_loader").style.display = 'none';
                     document.getElementById("{$this->id}").style.display = 'block';
-                    document.getElementById("{$this->id}").style.height = '{$this->height}px';
-                    document.getElementById("{$this->id}").style.width = '{$this->width}px';
+                    document.getElementById("{$this->id}").style.height = '{$this->height}';
+                    document.getElementById("{$this->id}").style.width = '{$this->width}';
                     {$this->id}.data.datasets = data;
                     {$this->id}.update();
                 });
@@ -356,14 +364,12 @@ EOT;
 
     public function html()
     {
-        if (is_null($this->id)) {
-            $this->handler();
-        }
+        $this->handler();
 
         $opacity = ($this->loader) ? 1 : 0;
 
         $loader = <<<EOT
-<div id="{$this->id}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}px; height: {$this->height}px;">
+<div id="{$this->id}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}; height: {$this->height};">
     <svg width="50" height="50" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">

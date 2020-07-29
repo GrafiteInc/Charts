@@ -6,7 +6,7 @@ class ExampleChartTest extends TestCase
     {
         $chart = app(ExampleChart::class);
 
-        $this->assertStringContainsString('style="display: flex; justify-content: center; opacity: 1; align-items: center; width: 100%; height: 100%"', $chart->html());
+        $this->assertStringContainsString('style="display: flex; justify-content: center; opacity: 1; align-items: center; width: 100%; height: 367px;"', $chart->html());
 
         $this->assertStringContainsString($chart->id, $chart->html());
         $this->assertStringContainsString('Chart_'.$chart->id, $chart->script());
