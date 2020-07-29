@@ -276,9 +276,7 @@ class Chart
      */
     public function script()
     {
-        if (is_null($this->id)) {
-            $this->handler();
-        }
+        $this->handler();
 
         $minifier = new JS();
 
@@ -365,7 +363,7 @@ EOT;
         $opacity = ($this->loader) ? 1 : 0;
 
         $loader = <<<EOT
-<div id="{$this->id}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}; height: {$this->height}">
+<div id="{$this->id}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}px; height: {$this->height}px;">
     <svg width="50" height="50" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
