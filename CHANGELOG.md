@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.5.0] - 2020-09-17
+
+### Added
+- Support for Laravel 8
+
 ## [v0.4.5] - 2020-07-29
 
 ### Fixed
