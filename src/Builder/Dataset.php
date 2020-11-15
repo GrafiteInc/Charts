@@ -19,7 +19,7 @@ class Dataset
      * @param string $type
      * @param array  $data
      */
-    public function __construct(string $name, int $borderWidth, string $type, array $data)
+    public function __construct(string $name, int $borderWidth, int $barWidth, string $type, array $data)
     {
         $this->name = $name;
         $this->type = $type;
@@ -27,6 +27,7 @@ class Dataset
 
         $this->options([
             'borderWidth' => $borderWidth,
+            'barPercentage' => $barWidth,
         ]);
 
         return $this;

@@ -162,7 +162,6 @@ class Chart
                 'xAxes' => [
                     [
                         'display' => $this->displayAxes,
-                        'barPercentage' => $this->barWidth,
                         'ticks' => [
                             'beginAtZero' => $this->beginAtZero,
                         ],
@@ -236,7 +235,7 @@ class Chart
     {
         $data = $data->toArray();
 
-        return (new Dataset($name, $this->borderWidth, $this->type, $data));
+        return (new Dataset($name, $this->borderWidth, $this->barWidth, $this->type, $data));
     }
 
     /**
