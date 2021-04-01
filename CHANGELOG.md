@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v0.5.2] - 2021-04-01
+
+### Fixed
+- Issue with disabling specific axes
+
 ## [v0.5.1] - 2020-11-15
 
 ### Fixed
