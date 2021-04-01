@@ -74,6 +74,20 @@ class Chart
     public $displayAxes = true;
 
     /**
+     * Display chart x axis
+     *
+     * @var bool
+     */
+    public $displayXAxis = true;
+
+    /**
+     * Display chart y axis
+     *
+     * @var bool
+     */
+    public $displayYAxis = true;
+
+    /**
      * Display chart title
      *
      * @var bool
@@ -161,7 +175,7 @@ class Chart
             'scales' => [
                 'xAxes' => [
                     [
-                        'display' => $this->displayAxes,
+                        'display' => ($this->displayAxes && $this->displayXAxis),
                         'ticks' => [
                             'beginAtZero' => $this->beginAtZero,
                         ],
@@ -172,7 +186,7 @@ class Chart
                         'ticks' => [
                             'beginAtZero' => $this->beginAtZero,
                         ],
-                        'display' => $this->displayAxes
+                        'display' => ($this->displayAxes && $this->displayYAxis)
                     ],
                 ],
             ],
@@ -305,8 +319,8 @@ class Chart
             $chartLoader = "{$this->id}_create({$datasets})";
         }
 
-if (!is_null($this->api_url)) {
-    $refresh = <<<EOT
+        if (!is_null($this->api_url)) {
+            $refresh = <<<EOT
         let {$this->id}_refresh = function (url) {
             document.getElementById("{$this->id}").style.display = 'none';
             document.getElementById("{$this->id}_loader").style.display = 'flex';
@@ -325,7 +339,7 @@ if (!is_null($this->api_url)) {
                 });
         };
 EOT;
-}
+        }
 
         $script = <<<EOT
 <script>
