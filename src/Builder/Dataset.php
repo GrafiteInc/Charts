@@ -19,8 +19,16 @@ class Dataset
      * @param string $type
      * @param array  $data
      */
-    public function __construct(string $name, int $borderWidth, int $barWidth, string $type, array $data)
-    {
+    public function __construct(
+        string $name,
+        int $borderWidth,
+        int $barWidth,
+        $barThickness,
+        string $type,
+        float $tension,
+        bool $fill,
+        array $data
+    ) {
         $this->name = $name;
         $this->type = $type;
         $this->data = $data;
@@ -28,6 +36,9 @@ class Dataset
         $this->options([
             'borderWidth' => $borderWidth,
             'barPercentage' => $barWidth,
+            'barThickness' => $barThickness,
+            'tension' => $tension,
+            'fill' => $fill,
         ]);
 
         return $this;
@@ -59,19 +70,19 @@ class Dataset
     public function format()
     {
         return array_merge($this->options, [
-            'data'  => $this->data,
+            'data' => $this->data,
             'label' => $this->name,
-            'type'  => $this->type,
+            'type' => $this->type,
         ]);
     }
 
-   /**
-     * Set the dataset border color.
-     *
-     * @param string|array|Collection $color
-     *
-     * @return self
-     */
+    /**
+      * Set the dataset border color.
+      *
+      * @param string|array|Collection $color
+      *
+      * @return self
+      */
     public function color($color)
     {
         if ($color instanceof Collection) {
@@ -118,10 +129,10 @@ class Dataset
      *
      * @return self
      */
-    public function lineTension(float $tension)
+    public function tension(float $tension)
     {
         return $this->options([
-            'lineTension' => $tension,
+            'tension' => $tension,
         ]);
     }
 

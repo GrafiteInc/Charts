@@ -49,7 +49,7 @@ class Chart
      *
      * @var string
      */
-    public $loaderColor = 'var(--primary)';
+    public $loaderColor = '#187bcd';
 
     /**
      * Chart legend displayed
@@ -63,7 +63,7 @@ class Chart
      *
      * @var int
      */
-    public $borderWidth = 4;
+    public $borderWidth = 2;
 
     /**
      * The beizer curve line tension
@@ -145,9 +145,9 @@ class Chart
     /**
      * Chart bar thickness
      *
-     * @var mixed
+     * @var int
      */
-    public $barThickness = null;
+    public $barThickness = 2;
 
     /**
      * Chart type
@@ -185,13 +185,18 @@ class Chart
     public $zoomAxis = 'xy';
 
     /**
-     * Animations for chart loading
+     * Enable the map feature
      *
-     * @var array
+     * @var bool
      */
-    public $animates = [
-        'borderWidth',
-    ];
+    public $map = false;
+    public $mapData = '';
+    public $mapDataCountries = null;
+    public $mapDataNation = null;
+    public $mapDataNationGeo = null;
+    public $country = null;
+    public $threeLetterCode = null;
+    public $continent = null;
 
     /**
      * Display the name of the X Axis
@@ -246,15 +251,19 @@ class Chart
         return $this->id . '_chart';
     }
 
-    public function getFeatures()
+    public function getPlugins()
     {
-        $features = '';
+        $plugins = '';
 
         if ($this->zoom) {
-            $features .= 'ChartZoom';
+            $plugins .= 'ChartZoom';
         }
 
-        return "[${features}]";
+        if ($this->map) {
+            $plugins .= 'ChartGeo';
+        }
+
+        return "[${plugins}]";
     }
 
     public function handler()
@@ -270,7 +279,6 @@ class Chart
         }
 
         $this->options = [
-            'responsive' => true,
             'title' => [
                 'display' => $this->displayTitle,
                 'fontFamily' => $this->titleAttributes['font_family'],
@@ -320,36 +328,30 @@ class Chart
                         'easing' => 'easeOutCubic',
                     ],
                 ],
+                // TOOD: width animations
+                // 'borderWidth' => [
+                //     'duration' => 1000,
+                //     'easing' => 'easeInQuad',
+                //     'from' => 0,
+                //     'to' => 4,
+                // ],
+
+                // 'backgroundColor' => [
+                //     'duration' => 1000,
+                //     'easing' => 'easeInQuad',
+                //     'type' => 'color',
+                //     'from' => 'transparent',
+                //     'to' => 'rgba(0,0,0,0.1)',
+                // ],
+
+                // 'tension' => [
+                //     'duration' => 1000,
+                //     'easing' => 'easeInQuad',
+                //     'from' => 2,
+                //     'to' => 0.4,
+                // ],
             ],
         ];
-
-        if (in_array('borderWidth', $this->animates)) {
-            $this->options['animations']['borderWidth'] = [
-                'duration' => 1000,
-                'easing' => 'easeInQuad',
-                'from' => 0,
-                'to' => $this->borderWidth,
-            ];
-        }
-
-        if (in_array('tension', $this->animates)) {
-            $this->options['animations']['tension'] = [
-                'duration' => 1000,
-                'easing' => 'easeInQuad',
-                'from' => 2,
-                'to' => $this->tension,
-            ];
-        }
-
-        if (in_array('backgroundColor', $this->animates)) {
-            $this->options['animations']['backgroundColor'] = [
-                'duration' => 1000,
-                'easing' => 'easeInQuad',
-                'type' => 'color',
-                'from' => 'transparent',
-                'to' => 'rgba(0,0,0,0.1)',
-            ];
-        }
 
         if (! Str::contains($this->height, '%') && ! Str::contains($this->height, 'px')) {
             $this->height = $this->height . 'px';
@@ -459,6 +461,10 @@ class Chart
             $plugins->push('<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.0-beta.2/chartjs-plugin-zoom.min.js" charset="utf-8"></script>');
         }
 
+        if ($this->map) {
+            $plugins->push('<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@3.0.1/build/index.umd.min.js" charset="utf-8"></script>');
+        }
+
         return collect([
             "<script src=\"https://cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.min.js\" charset=\"utf-8\"></script>",
         ])->merge($plugins)->implode("\n");
@@ -513,14 +519,42 @@ class Chart
 EOT;
         }
 
+        $mapCode = '';
+
+        if (! empty($this->mapData)) {
+            $mapCode = <<<EOT
+            var _mapData = {$this->mapData};
+            var _mapGeometries = {$this->mapDataCountries};
+            var _continent = {$this->mapDataNation};
+            var _country = '{$this->country}';
+            var _continentUnits = 'continent_{$this->continent}_subunits';
+
+            const nations = ChartGeo.topojson.feature(_continent, _continent.objects[_continentUnits]).features;
+            const Nation = nations.find((d) => d.properties.geounit === _country);
+
+            var countries = ChartGeo.topojson.feature(_mapData, _mapGeometries).features;
+
+            data = [{
+                label: 'Countries',
+                outline: Nation,
+                showOutline: true,
+                data: countries.map((d) => ({
+                    feature: d,
+                    value: d.properties.value,
+                })),
+            }];
+EOT;
+        }
+
         $script = <<<EOT
 <script>
     function {$this->getId()}_create(data) {
+        ${mapCode}
         {$this->getId()}_rendered = true;
         document.getElementById("{$this->getId()}_loader").style.display = 'none';
         document.getElementById("{$this->getId()}").style.display = 'block';
         window.{$this->getId()} = new Chart(document.getElementById("{$this->getId()}").getContext("2d"), {
-            plugins: {$this->getFeatures()},
+            plugins: {$this->getPlugins()},
             type: "{$this->type}",
             data: {
                 labels: {$labels},

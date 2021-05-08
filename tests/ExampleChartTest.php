@@ -9,7 +9,7 @@ class ExampleChartTest extends TestCase
         $this->assertStringContainsString('style="display: flex; justify-content: center; opacity: 1; align-items: center; width: 100%; height: 367px;"', $chart->html());
 
         $this->assertStringContainsString($chart->id, $chart->html());
-        $this->assertStringContainsString('Chart_'.$chart->id, $chart->script());
+        $this->assertStringContainsString($chart->id.'_chart', $chart->script());
         $this->assertStringContainsString('<canvas', $chart->html());
         $this->assertStringContainsString('Awesome Chart', $chart->script());
         $this->assertStringContainsString('FooBar', $chart->script());
@@ -19,7 +19,7 @@ class ExampleChartTest extends TestCase
     public function testCDNLink()
     {
         $chart = app(ExampleChart::class);
-        $this->assertStringContainsString('Chart.js', $chart->cdn());
+        $this->assertStringContainsString('chart.js', $chart->cdn());
     }
 
     public function testApiResponse()
