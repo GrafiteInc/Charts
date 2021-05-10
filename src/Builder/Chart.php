@@ -308,6 +308,11 @@ class Chart
                         'mode' => $this->zoomAxis,
                         'drag' => true,
                     ],
+                    'pan' => [
+                        'enabled' => $this->zoom,
+                        'mode' => $this->zoomAxis,
+                        'modifierKey' => 'shift',
+                    ],
                 ],
                 'legend' => [
                     'display' => $this->displayLegend,
@@ -315,6 +320,12 @@ class Chart
             ],
             'animations' => [
                 'zoom' => [
+                    'animation' => [
+                        'duration' => 1000,
+                        'easing' => 'easeOutCubic',
+                    ],
+                ],
+                'pan' => [
                     'animation' => [
                         'duration' => 1000,
                         'easing' => 'easeOutCubic',
@@ -456,7 +467,7 @@ class Chart
 
         if ($this->zoom) {
             $plugins->push('<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>');
-            $plugins->push('<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.0-beta.2/chartjs-plugin-zoom.min.js" charset="utf-8"></script>');
+            $plugins->push('<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0-beta.5/dist/chartjs-plugin-zoom.min.js" charset="utf-8"></script>');
         }
 
         return collect([
