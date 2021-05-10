@@ -5,12 +5,11 @@ use Grafite\Charts\Builder\Chart;
 class ExampleChart extends Chart
 {
     public $title = 'Awesome Chart';
-
     public $height = '367px';
 
-    public function __construct()
+    public function collectData()
     {
-        // do what you need here with data
+        // pull from your app to get data?
     }
 
     public function labels()

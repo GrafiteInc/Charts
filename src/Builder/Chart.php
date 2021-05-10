@@ -126,7 +126,7 @@ class Chart
      *
      * @var string
      */
-    public $grace = '5%';
+    public $grace = '0%';
 
     /**
      * Decides if a bar chart is vertical vs horizontal
@@ -185,6 +185,13 @@ class Chart
     public $zoomAxis = 'xy';
 
     /**
+     * Should the tooltip always be on
+     *
+     * @var bool
+     */
+    public $tooltipAlwaysOn = false;
+
+    /**
      * Animations for chart loading
      *
      * @var array
@@ -194,11 +201,18 @@ class Chart
     ];
 
     /**
+     * Display the name of the Axes
+     *
+     * @var bool
+     */
+    public $displayAxesTitle = false;
+
+    /**
      * Display the name of the X Axis
      *
-     * @var string
+     * @var bool
      */
-    public $displayXAxisTitle = false;
+    public $displayXAxisTitle = true;
 
     /**
      * The name of the X Axis
@@ -217,15 +231,17 @@ class Chart
     /**
      * Display the name of the X Axis
      *
-     * @var string
+     * @var bool
      */
-    public $displayYAxisTitle = false;
+    public $displayYAxisTitle = true;
 
     public $options = [];
 
     public $labels = [];
 
     public $datasets = [];
+
+    public $data;
 
     public $titleAttributes = [
         'font_family' => "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
@@ -234,16 +250,38 @@ class Chart
         'font_weight' => 'bold',
     ];
 
-    public function __construct()
+    public function __construct($data = null)
     {
-        if (is_null($this->title)) {
-            throw new Exception('Title is required', 1);
+        if (is_null($data)) {
+            $data = $this->collectData();
         }
+
+        $this->setData($data);
+
+        if (is_null($this->title)) {
+            $this->displayTitle = false;
+        }
+
+        if (is_null($this->id)) {
+            $this->id = '_' . Str::random(32);
+        }
+
+        $this->handler();
+    }
+
+    public function collectData()
+    {
+        // This method is if you wish to collect the data in the chart class.
     }
 
     public function getId()
     {
         return $this->id . '_chart';
+    }
+
+    public function setData($data = null)
+    {
+        $this->data = $data;
     }
 
     public function getFeatures()
@@ -259,10 +297,6 @@ class Chart
 
     public function handler()
     {
-        if (is_null($this->id)) {
-            $this->id = '_' . Str::random(32);
-        }
-
         if (in_array($this->type, ['pie', 'doughnut'])) {
             $this->displayYAxis = false;
             $this->displayXAxis = false;
@@ -271,20 +305,12 @@ class Chart
 
         $this->options = [
             'responsive' => true,
-            'title' => [
-                'display' => $this->displayTitle,
-                'fontFamily' => $this->titleAttributes['font_family'],
-                'fontSize' => $this->titleAttributes['font_size'],
-                'fontColor' => $this->titleAttributes['color'],
-                'fontStyle' => $this->titleAttributes['font_weight'],
-                'text' => $this->title,
-            ],
             'maintainAspectRatio' => $this->maintainAspectRatio,
             'indexAxis' => $this->indexAxis,
             'scales' => [
                 'x' => [
                     'title' => [
-                        'display' => $this->displayXAxisTitle,
+                        'display' => ($this->displayAxesTitle && $this->displayXAxisTitle),
                         'text' => $this->xAxis,
                     ],
                     'display' => ($this->displayAxes && $this->displayXAxis),
@@ -293,7 +319,7 @@ class Chart
                 ],
                 'y' => [
                     'title' => [
-                        'display' => $this->displayYAxisTitle,
+                        'display' => ($this->displayAxesTitle && $this->displayYAxisTitle),
                         'text' => $this->yAxis,
                     ],
                     'display' => ($this->displayAxes && $this->displayYAxis),
@@ -302,6 +328,17 @@ class Chart
                 ],
             ],
             'plugins' => [
+                'tooltip' => [
+                    'intersect' => ! $this->tooltipAlwaysOn,
+                ],
+                'title' => [
+                    'display' => $this->displayTitle,
+                    'fontFamily' => $this->titleAttributes['font_family'],
+                    'fontSize' => $this->titleAttributes['font_size'],
+                    'fontColor' => $this->titleAttributes['color'],
+                    'fontStyle' => $this->titleAttributes['font_weight'],
+                    'text' => $this->title,
+                ],
                 'zoom' => [
                     'zoom' => [
                         'enabled' => $this->zoom,
@@ -400,8 +437,6 @@ class Chart
      */
     public function apiResponse()
     {
-        $this->handler();
-
         return $this->formatDatasets();
     }
 
@@ -482,8 +517,6 @@ class Chart
      */
     public function script()
     {
-        $this->handler();
-
         $minifier = new JS();
 
         $refresh = '';
@@ -561,8 +594,6 @@ EOT;
 
     public function html()
     {
-        $this->handler();
-
         $opacity = ($this->loader) ? 1 : 0;
 
         $loader = <<<EOT
