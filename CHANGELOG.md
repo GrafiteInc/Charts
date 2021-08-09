@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.1.0] - 2021-08-09
+
+### Added
+- Ability to handle click events in the chart
+
 ## [v2.0.1] - 2021-05-21
 
 ### Removed
