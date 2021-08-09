@@ -14,7 +14,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '3.2.1';
+    public $version = '3.5.0';
 
     /**
      * Chart ID (set by default)
@@ -582,6 +582,17 @@ let {$this->getId()}_load = function () {
     if (document.getElementById("{$this->getId()}") && !{$this->getId()}_rendered) {
         {$chartLoader}
     }
+
+    window.{$this->getId()}.options.onClick = function (event, items, chart) {
+        let chartClickEvent = new CustomEvent("grafite-charts-click", {
+            detail: {
+                items: items,
+                chart: chart,
+            }
+        });
+
+        document.dispatchEvent(chartClickEvent);
+    };
 };
 window.addEventListener("load", {$this->getId()}_load);
 document.addEventListener("turbolinks:load", {$this->getId()}_load);
