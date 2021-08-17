@@ -163,4 +163,26 @@ class Dataset
             'label' => $label,
         ]);
     }
+
+    /**
+     * Set the point details of the dataset.
+     *
+     * @param $size string
+     * @param $color string
+     *
+     * @return self
+     */
+    public function flatPoint($size, $color)
+    {
+        $pointDetails = [
+            'pointRadius' => $size,
+            'pointHoverRadius' => $size,
+            'pointBorder' => $size,
+            'pointHoverBorder' => $size,
+            'pointBackgroundColor' => $color,
+            'pointHoverBackgroundColor' => $color,
+        ];
+
+        return $this->options($pointDetails);
+    }
 }
