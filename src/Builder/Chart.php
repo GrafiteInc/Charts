@@ -192,6 +192,20 @@ class Chart
     public $tooltipAlwaysOn = false;
 
     /**
+     * The spacing of the tooltip from the point.
+     *
+     * @var int
+     */
+    public $caretPadding = 2;
+
+    /**
+     * The chart has click events on the points.
+     *
+     * @var boolean
+     */
+    public $hasClickEvents = false;
+
+    /**
      * Animations for chart loading
      *
      * @var array
@@ -330,6 +344,7 @@ class Chart
             'plugins' => [
                 'tooltip' => [
                     'intersect' => ! $this->tooltipAlwaysOn,
+                    'caretPadding' => $this->caretPadding,
                 ],
                 'title' => [
                     'display' => $this->displayTitle,
@@ -520,6 +535,7 @@ class Chart
         $minifier = new JS();
 
         $refresh = '';
+        $onHover = '';
         $chartApiUrl = '';
 
         $labels = json_encode($this->labels);
@@ -557,6 +573,14 @@ class Chart
 EOT;
         }
 
+        if ($this->hasClickEvents) {
+            $onHover = <<<EOT
+        window.{$this->getId()}.options.onHover = function (event, chartElement) {
+            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+        };
+EOT;
+        }
+
         $script = <<<EOT
 <script>
     function {$this->getId()}_create(data) {
@@ -582,6 +606,8 @@ let {$this->getId()}_load = function () {
     if (document.getElementById("{$this->getId()}") && !{$this->getId()}_rendered) {
         {$chartLoader}
     }
+
+    {$onHover}
 
     window.{$this->getId()}.options.onClick = function (event, items, chart) {
         let chartClickEvent = new CustomEvent("grafite-charts-click", {
