@@ -14,7 +14,7 @@ The Grafite Charts package is a tool for integrating ChartJS charts into a Larav
 
 ## Requirements
 
-1. PHP 7.3+
+1. PHP 7.3+|8.0+
 
 ## Compatibility and Support
 
