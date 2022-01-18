@@ -41,7 +41,7 @@ class ChartAssets
 
     public function cdn()
     {
-        return $this->cdn->implode("\n");
+        return collect($this->cdn)->implode("\n");
     }
 
     /**
