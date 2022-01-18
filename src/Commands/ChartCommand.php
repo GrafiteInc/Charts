@@ -64,7 +64,7 @@ class ChartCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Charts';
+        return $rootNamespace.'\Views\Charts';
     }
 
     /**

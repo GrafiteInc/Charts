@@ -5,6 +5,7 @@ namespace Grafite\Charts\Builder;
 use Exception;
 use Illuminate\Support\Str;
 use MatthiasMullie\Minify\JS;
+use Grafite\Charts\ChartAssets;
 use Illuminate\Support\Collection;
 
 class Chart
@@ -520,9 +521,13 @@ class Chart
             $plugins->push('<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0-beta.5/dist/chartjs-plugin-zoom.min.js" charset="utf-8"></script>');
         }
 
-        return collect([
+        $cdnScripts = collect([
             "<script src=\"https://cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.min.js\" charset=\"utf-8\"></script>",
-        ])->merge($plugins)->implode("\n");
+        ])->merge($plugins);
+
+        app(ChartAssets::class)->setCdn($cdnScripts);
+
+        return $cdnScripts->implode("\n");
     }
 
     /**
@@ -582,7 +587,6 @@ EOT;
         }
 
         $script = <<<EOT
-<script>
     function {$this->getId()}_create(data) {
         {$this->getId()}_rendered = true;
         document.getElementById("{$this->getId()}_loader").style.display = 'none';
@@ -622,9 +626,9 @@ let {$this->getId()}_load = function () {
 };
 window.addEventListener("load", {$this->getId()}_load);
 document.addEventListener("turbolinks:load", {$this->getId()}_load);
-
-</script>
 EOT;
+
+        app(ChartAssets::class)->addJs($script);
 
         return $minifier->add($script)->minify();
     }
@@ -632,6 +636,9 @@ EOT;
     public function html()
     {
         $opacity = ($this->loader) ? 1 : 0;
+
+        $this->cdn();
+        $this->script();
 
         $loader = <<<EOT
 <div id="{$this->getId()}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}; height: {$this->height};">
