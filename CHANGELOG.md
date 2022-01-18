@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.3.0] - 2022-01-18
+
+### Added
+- New blade directives for nicer layouts
+
 ## [v2.2.1] - 2021-09-09
 
 ### Added
