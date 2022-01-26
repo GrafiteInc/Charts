@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '3.5.0';
+    public $version = '3.7.0';
 
     /**
      * Chart ID (set by default)
@@ -591,6 +591,8 @@ EOT;
         {$this->getId()}_rendered = true;
         document.getElementById("{$this->getId()}_loader").style.display = 'none';
         document.getElementById("{$this->getId()}").style.display = 'block';
+        document.getElementById("{$this->getId()}").style.height = '{$this->height}';
+        document.getElementById("{$this->getId()}").style.width = '{$this->width}';
         window.{$this->getId()} = new Chart(document.getElementById("{$this->getId()}").getContext("2d"), {
             plugins: {$this->getFeatures()},
             type: "{$this->type}",
