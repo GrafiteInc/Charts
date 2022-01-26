@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.3.2] - 2022-01-26
+
+### Changed
+- Version to 3.7
+
+### Fixed
+- Issue with heights
+
 ## [v2.3.1] - 2022-01-18
 
 ### Fixed
