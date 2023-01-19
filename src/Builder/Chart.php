@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '3.7.0';
+    public $version = '4.2.0';
 
     /**
      * Chart ID (set by default)
@@ -522,7 +522,7 @@ class Chart
         }
 
         $cdnScripts = collect([
-            "<script src=\"https://cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.min.js\" charset=\"utf-8\"></script>",
+            "<script src=\"https://cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.umd.js\" charset=\"utf-8\"></script>",
         ])->merge($plugins);
 
         app(ChartAssets::class)->setCdn($cdnScripts);
