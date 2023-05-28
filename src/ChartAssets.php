@@ -22,12 +22,12 @@ class ChartAssets
      *
      * @return string
      */
-    public function render($type = 'all')
+    public function render($type = 'all', $nonce = false)
     {
         $output = '';
 
-        $output .= $this->compileStyles($type);
-        $output .= $this->compileScripts($type);
+        $output .= $this->compileStyles($type, $nonce);
+        $output .= $this->compileScripts($type, $nonce);
 
         return $output;
     }
@@ -41,7 +41,7 @@ class ChartAssets
 
     public function cdn()
     {
-        return collect($this->cdn)->implode("\n");
+        return "<!-- Chart CDN -->\n".collect($this->cdn)->implode("\n");
     }
 
     /**
@@ -104,8 +104,9 @@ class ChartAssets
         return $this;
     }
 
-    protected function compileStyles($type)
+    protected function compileStyles($type, $nonce)
     {
+        $nonce = $nonce ? ' nonce="' . $nonce . '"' : '';
         $output = '';
 
         if (in_array($type, ['all', 'styles'])) {
@@ -117,14 +118,15 @@ class ChartAssets
                 $styles = $minifierCSS->add($styles)->minify();
             }
 
-            $output .= "<style>\n{$styles}\n</style>\n";
+            $output .= "<!-- Chart Styles -->\n<style {$nonce}>\n{$styles}\n</style>\n";
         }
 
         return $output;
     }
 
-    protected function compileScripts($type)
+    protected function compileScripts($type, $nonce)
     {
+        $nonce = $nonce ? ' nonce="' . $nonce . '"' : '';
         $output = '';
 
         if (in_array($type, ['all', 'scripts'])) {
@@ -136,7 +138,7 @@ class ChartAssets
                 $js = $minifierJS->add($js)->minify();
             }
 
-            $output .= "<script>\n{$js}\n</script>\n";
+            $output .= "<!-- Chart Scripts -->\n<script {$nonce}>\n{$js}\n</script>\n";
         }
 
         return $output;

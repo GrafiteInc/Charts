@@ -12,20 +12,20 @@ class GrafiteChartsProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['blade.compiler']->directive('chartsAssets', function () {
-            return "<?php echo app('" . ChartAssets::class . "')->render(); ?>";
+        $this->app['blade.compiler']->directive('chartsAssets', function ($nonce) {
+            return "<?php echo app('" . ChartAssets::class . "')->render($nonce); ?>";
         });
 
         $this->app['blade.compiler']->directive('chartCdn', function () {
             return "<?php echo app('" . ChartAssets::class . "')->cdn(); ?>";
         });
 
-        $this->app['blade.compiler']->directive('chartScripts', function () {
-            return "<?php echo app('" . ChartAssets::class . "')->render('scripts'); ?>";
+        $this->app['blade.compiler']->directive('chartScripts', function ($nonce) {
+            return "<?php echo app('" . ChartAssets::class . "')->render('scripts', $nonce); ?>";
         });
 
-        $this->app['blade.compiler']->directive('chartStyles', function () {
-            return "<?php echo app('" . ChartAssets::class . "')->render('styles'); ?>";
+        $this->app['blade.compiler']->directive('chartStyles', function ($nonce) {
+            return "<?php echo app('" . ChartAssets::class . "')->render('styles', $nonce); ?>";
         });
     }
 
