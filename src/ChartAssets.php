@@ -107,7 +107,7 @@ class ChartAssets
     protected function compileStyles($type, $nonce)
     {
         $nonce = $nonce ? ' nonce="' . $nonce . '"' : '';
-        $output = '';
+        $output = "<!-- Chart Stylesheets -->\n";
 
         if (in_array($type, ['all', 'styles'])) {
             $output .= collect($this->stylesheets)->unique()->implode("\n");
@@ -127,7 +127,7 @@ class ChartAssets
     protected function compileScripts($type, $nonce)
     {
         $nonce = $nonce ? ' nonce="' . $nonce . '"' : '';
-        $output = '';
+        $output = "<!-- Chart Script Sources -->\n";
 
         if (in_array($type, ['all', 'scripts'])) {
             $output .= collect($this->scripts)->unique()->implode("\n");
