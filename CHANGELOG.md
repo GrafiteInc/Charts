@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.5.1] - 2023-05-29
+
+### Added
+- Nonce
+
 ## [v2.5.0] - 2023-02-27
 
 ### Changed
