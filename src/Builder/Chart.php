@@ -258,6 +258,11 @@ class Chart
 
     public $data;
 
+    public $axesAttributes = [
+        'x-font-size' => 14,
+        'y-font-size' => 14,
+    ];
+
     public $titleAttributes = [
         'font_family' => "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
         'font_size' => 14,
@@ -331,6 +336,11 @@ class Chart
                     'display' => ($this->displayAxes && $this->displayXAxis),
                     'beginAtZero' => $this->beginAtZero,
                     'grace' => $this->grace,
+                    'ticks' => [
+                        'font' => [
+                            'size' => $this->axesAttributes['x-font-size']
+                        ],
+                    ]
                 ],
                 'y' => [
                     'title' => [
@@ -340,6 +350,11 @@ class Chart
                     'display' => ($this->displayAxes && $this->displayYAxis),
                     'beginAtZero' => $this->beginAtZero,
                     'grace' => $this->grace,
+                    'ticks' => [
+                        'font' => [
+                            'size' => $this->axesAttributes['y-font-size']
+                        ],
+                    ]
                 ],
             ],
             'plugins' => [
