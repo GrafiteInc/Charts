@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.6.1] - 2023-10-06
+
+### Changed
+- Updated version of ChartJS
+
 ## [v2.6.0] - 2023-09-29
 
 ### Added
