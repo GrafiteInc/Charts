@@ -20,7 +20,7 @@ The Grafite Charts package is a tool for integrating ChartJS charts into a Larav
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| ^7.x - ^10.x | 2.x | yes |
+| ^7.x - ^11.x | 2.x | yes |
 | ^7.x - ^8.x | 1.x | no |
 
 ## Built From consoletvs/charts and Why
