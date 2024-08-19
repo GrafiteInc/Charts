@@ -68,7 +68,7 @@ class ChartAssets
     public function addScripts($scripts)
     {
         foreach ($scripts as $script) {
-            $this->scripts[] = '<script src="' . $script . '"></script>';
+            $this->scripts[] = '<script type="module" src="' . $script . '"></script>';
         }
 
         return $this;
@@ -138,7 +138,7 @@ class ChartAssets
                 $js = $minifierJS->add($js)->minify();
             }
 
-            $output .= "<!-- Chart Scripts -->\n<script {$nonce}>\n{$js}\n</script>\n";
+            $output .= "<!-- Chart Scripts -->\n<script type=\"module\" {$nonce}>\n{$js}\n</script>\n";
         }
 
         return $output;
