@@ -532,17 +532,19 @@ class Chart
         $plugins = collect();
 
         if ($this->zoom) {
-            $plugins->push('<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>');
-            $plugins->push('<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0-beta.5/dist/chartjs-plugin-zoom.min.js" charset="utf-8"></script>');
+            $plugins->push('//cdn.jsdelivr.net/npm/hammerjs@2.0.8');
+            $plugins->push('//cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0-beta.5/dist/chartjs-plugin-zoom.min.js');
         }
 
         $cdnScripts = collect([
-            "<script src=\"https://cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.umd.js\" charset=\"utf-8\"></script>",
+            "//cdn.jsdelivr.net/npm/chart.js@{$this->version}/dist/chart.umd.js",
         ])->merge($plugins);
 
-        app(ChartAssets::class)->setCdn($cdnScripts);
+        $assets = app(ChartAssets::class);
+        $assets->setCdn($cdnScripts);
+        $assets->addScripts($cdnScripts);
 
-        return $cdnScripts->implode("\n");
+        return collect($assets->scripts)->implode("\n");
     }
 
     /**

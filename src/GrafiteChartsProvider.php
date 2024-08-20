@@ -13,7 +13,7 @@ class GrafiteChartsProvider extends ServiceProvider
     public function boot()
     {
         $this->app['blade.compiler']->directive('chartsAssets', function ($nonce) {
-            return "<?php echo app('" . ChartAssets::class . "')->render($nonce); ?>";
+            return "<?php echo app('" . ChartAssets::class . "')->render('all', $nonce); ?>";
         });
 
         $this->app['blade.compiler']->directive('chartCdn', function () {

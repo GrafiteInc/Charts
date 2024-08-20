@@ -41,7 +41,9 @@ class ChartAssets
 
     public function cdn()
     {
-        return "<!-- Chart CDN -->\n".collect($this->cdn)->implode("\n");
+        return "<!-- Chart CDN -->\n".collect($this->cdn)->map(function ($source) {
+            return "<script src=\"{$source}\"></script>";
+        })->implode("\n");
     }
 
     /**
@@ -68,7 +70,7 @@ class ChartAssets
     public function addScripts($scripts)
     {
         foreach ($scripts as $script) {
-            $this->scripts[] = '<script type="module" src="' . $script . '"></script>';
+            $this->scripts[] = '<script src="' . $script . '"></script>';
         }
 
         return $this;
