@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '4.4.4';
+    public $version = '4.4.6';
 
     /**
      * Chart ID (set by default)
@@ -255,6 +255,8 @@ class Chart
     public $labels = [];
 
     public $datasets = [];
+
+    public $plugins = [];
 
     public $data;
 
@@ -529,7 +531,7 @@ class Chart
      */
     public function cdn()
     {
-        $plugins = collect();
+        $plugins = collect($this->plugins);
 
         if ($this->zoom) {
             $plugins->push('//cdn.jsdelivr.net/npm/hammerjs@2.0.8');
