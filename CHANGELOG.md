@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.0.0] - 2024-10-30
+
+### Added
+- New plugins injector
+
 ## [v2.8.2] - 2024-10-07
 
 ### Changed
