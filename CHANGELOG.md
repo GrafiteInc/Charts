@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.0.2] - 2025-04-23
+
+### Fixed
+- Issues with global functions and event loading
+
 ## [v3.0.1] - 2025-01-16
 
 ### Changed
