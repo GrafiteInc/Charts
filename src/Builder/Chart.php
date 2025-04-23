@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '4.4.7';
+    public $version = '4.4.8';
 
     /**
      * Chart ID (set by default)
@@ -577,7 +577,7 @@ class Chart
 
         if (! is_null($this->api_url)) {
             $refresh = <<<EOT
-        let {$this->getId()}_refresh = function (url) {
+        window.{$this->getId()}_refresh = function (url) {
             document.getElementById("{$this->getId()}").style.display = 'none';
             document.getElementById("{$this->getId()}_loader").style.display = 'flex';
             if (typeof url !== 'undefined') {
@@ -606,7 +606,7 @@ EOT;
         }
 
         $script = <<<EOT
-    function {$this->getId()}_create(data) {
+    window.{$this->getId()}_create = function (data) {
         {$this->getId()}_rendered = true;
         document.getElementById("{$this->getId()}_loader").style.display = 'none';
         document.getElementById("{$this->getId()}").style.display = 'block';
@@ -634,16 +634,18 @@ let {$this->getId()}_load = function () {
 
     {$onHover}
 
-    window.{$this->getId()}.options.onClick = function (event, items, chart) {
-        let chartClickEvent = new CustomEvent("grafite-charts-click", {
-            detail: {
-                items: items,
-                chart: chart,
-            }
-        });
+    setTimeout(function () {
+        window.{$this->getId()}.options.onClick = function (event, items, chart) {
+            let chartClickEvent = new CustomEvent("grafite-charts-click", {
+                detail: {
+                    items: items,
+                    chart: chart,
+                }
+            });
 
-        document.dispatchEvent(chartClickEvent);
-    };
+            document.dispatchEvent(chartClickEvent);
+        };
+    }, 500);
 };
 window.addEventListener("load", {$this->getId()}_load);
 document.addEventListener("turbolinks:load", {$this->getId()}_load);
