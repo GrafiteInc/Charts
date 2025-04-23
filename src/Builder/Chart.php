@@ -634,16 +634,18 @@ let {$this->getId()}_load = function () {
 
     {$onHover}
 
-    window.{$this->getId()}.options.onClick = function (event, items, chart) {
-        let chartClickEvent = new CustomEvent("grafite-charts-click", {
-            detail: {
-                items: items,
-                chart: chart,
-            }
-        });
+    setTimeout(function () {
+        window.{$this->getId()}.options.onClick = function (event, items, chart) {
+            let chartClickEvent = new CustomEvent("grafite-charts-click", {
+                detail: {
+                    items: items,
+                    chart: chart,
+                }
+            });
 
-        document.dispatchEvent(chartClickEvent);
-    };
+            document.dispatchEvent(chartClickEvent);
+        };
+    }, 500);
 };
 window.addEventListener("load", {$this->getId()}_load);
 document.addEventListener("turbolinks:load", {$this->getId()}_load);
