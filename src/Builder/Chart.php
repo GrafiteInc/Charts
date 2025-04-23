@@ -577,7 +577,7 @@ class Chart
 
         if (! is_null($this->api_url)) {
             $refresh = <<<EOT
-        let {$this->getId()}_refresh = function (url) {
+        window.{$this->getId()}_refresh = function (url) {
             document.getElementById("{$this->getId()}").style.display = 'none';
             document.getElementById("{$this->getId()}_loader").style.display = 'flex';
             if (typeof url !== 'undefined') {
@@ -606,7 +606,7 @@ EOT;
         }
 
         $script = <<<EOT
-    function {$this->getId()}_create(data) {
+    window.{$this->getId()}_create = function (data) {
         {$this->getId()}_rendered = true;
         document.getElementById("{$this->getId()}_loader").style.display = 'none';
         document.getElementById("{$this->getId()}").style.display = 'block';
