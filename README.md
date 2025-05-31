@@ -2,8 +2,8 @@
 
 **Charts** - A handy little ChartJS package for Laravel apps.
 
-[![PHP Package Tests](https://github.com/GrafiteInc/Charts/workflows/PHP%20Package%20Tests/badge.svg)](https://github.com/grafiteinc/charts/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1f78223f1c3e16b59229/maintainability)](https://codeclimate.com/github/GrafiteInc/Charts/maintainability)
+[![Build Status](https://github.com/GrafiteInc/Charts/actions/workflows/php-package-tests.yml/badge.svg?branch=main)](https://github.com/GrafiteInc/Charts/actions/workflows/php-package-tests.yml)
+[![Maintainability](https://qlty.sh/badges/248d11cc-6040-4e1a-9635-aae9eb1fa187/maintainability.svg)](https://qlty.sh/gh/GrafiteInc/projects/Charts)
 [![Packagist](https://img.shields.io/packagist/dt/grafite/charts.svg)](https://packagist.org/packages/grafite/charts)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/grafite/charts)
 
@@ -20,7 +20,7 @@ The Grafite Charts package is a tool for integrating ChartJS charts into a Larav
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| ^7.x - ^11.x | 2.x | yes |
+| ^7.x - ^12.x | 2.x | yes |
 | ^7.x - ^8.x | 1.x | no |
 
 ## Built From consoletvs/charts and Why
