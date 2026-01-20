@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '4.4.8';
+    public $version = '4.5.1';
 
     /**
      * Chart ID (set by default)
