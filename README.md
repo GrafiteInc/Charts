@@ -41,7 +41,7 @@ composer require "grafite/charts"
 
 ## Documentation
 
-[https://docs.grafite.ca/utilities/charts](https://docs.grafite.ca/utilities/charts)
+[https://documentation.grafite.ca/docs/utilities-charts](https://documentation.grafite.ca/docs/utilities-charts)
 
 ## License
 Grafite Charts is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
