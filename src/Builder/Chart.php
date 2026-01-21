@@ -567,12 +567,12 @@ class Chart
         $datasets = json_encode($this->formatDatasets());
 
         if (! is_null($this->api_url)) {
-            $chartApiUrl = "let {$this->getId()}_api_url = \"{$this->api_url}\"";
+            $chartApiUrl = "let {$this->getId()}_api_url = \"{$this->api_url}\";";
             $chartLoader = "fetch({$this->getId()}_api_url)
                 .then(data => data.json())
                 .then(data => { {$this->getId()}_create(data) });";
         } else {
-            $chartLoader = "{$this->getId()}_create({$datasets})";
+            $chartLoader = "{$this->getId()}_create({$datasets});";
         }
 
         if (! is_null($this->api_url)) {
@@ -582,7 +582,7 @@ class Chart
             document.getElementById("{$this->getId()}_loader").style.display = 'flex';
             if (typeof url !== 'undefined') {
                 {$this->getId()}_api_url = url;
-            }
+            };
             fetch({$this->getId()}_api_url)
                 .then(data => data.json())
                 .then(data => {
@@ -621,7 +621,7 @@ EOT;
             },
             options: {$options}
         });
-    }
+    };
 
     {$refresh}
 
