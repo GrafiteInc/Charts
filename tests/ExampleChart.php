@@ -7,9 +7,9 @@ class ExampleChart extends Chart
     public $title = 'Awesome Chart';
     public $height = '367px';
 
-    public function collectData()
+    public function collectData(): array
     {
-        // pull from your app to get data?
+        return [];
     }
 
     public function labels()
