@@ -272,6 +272,12 @@ class Chart
         'font_weight' => 'bold',
     ];
 
+    /**
+     * Create a new chart instance and initialize defaults.
+     *
+     * @param mixed $data
+     * @return void
+     */
     public function __construct($data = null)
     {
         if (is_null($data)) {
@@ -291,21 +297,44 @@ class Chart
         $this->handler();
     }
 
-    public function collectData()
+    /**
+     * Collect the data for the chart
+     *
+     * @return array|Collection
+     */
+    public function collectData(): array|Collection
     {
         // This method is if you wish to collect the data in the chart class.
+
+        return [];
     }
 
+    /**
+     * Get the DOM id used by the rendered chart canvas.
+     *
+     * @return string
+     */
     public function getId()
     {
         return $this->id . '_chart';
     }
 
+    /**
+     * Set chart data.
+     *
+     * @param mixed $data
+     * @return void
+     */
     public function setData($data = null)
     {
         $this->data = $data;
     }
 
+    /**
+     * Get chart feature plugins for script generation.
+     *
+     * @return string
+     */
     public function getFeatures()
     {
         $features = '';
@@ -317,6 +346,12 @@ class Chart
         return "[${features}]";
     }
 
+    /**
+     * Build chart configuration and validate required chart state.
+     *
+     * @throws \Exception
+     * @return void
+     */
     public function handler()
     {
         if (in_array($this->type, ['pie', 'doughnut'])) {
@@ -554,6 +589,11 @@ class Chart
      *
      * @return string
      */
+    /**
+     * Generate and minify JavaScript required to render the chart.
+     *
+     * @return string
+     */
     public function script()
     {
         $minifier = new JS();
@@ -656,6 +696,11 @@ EOT;
         return $minifier->add($script)->minify();
     }
 
+    /**
+     * Generate the chart canvas and loader HTML markup.
+     *
+     * @return string
+     */
     public function html()
     {
         $opacity = ($this->loader) ? 1 : 0;
