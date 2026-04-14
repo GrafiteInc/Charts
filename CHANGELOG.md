@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.0.6] - 2026-04-14
+
+### Chore
+- doc blocks and return types
+
 ## [v3.0.5] - 2026-04-07
 
 ### Chore
