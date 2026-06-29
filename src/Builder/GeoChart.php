@@ -210,7 +210,7 @@ class GeoChart extends Chart
                         $linestring[] = $point;
                     }
                 }
-                $linestrins[] = $linestring;
+                $linestrings[] = $linestring;
             }
             $obj = new stdClass;
             $obj->type = $topo_obj->type;
@@ -218,7 +218,7 @@ class GeoChart extends Chart
             break;
 
         default:
-            throw new Exception("Unsupported Topology type {$object->type}");
+            throw new Exception("Unsupported Topology type {$topo_obj->type}");
         }
 
         if (!property_exists($topo_obj, 'properties')) {

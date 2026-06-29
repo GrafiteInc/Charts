@@ -343,7 +343,7 @@ class Chart
             $features .= 'ChartZoom';
         }
 
-        return "[${features}]";
+        return "[{$features}]";
     }
 
     /**
@@ -585,18 +585,17 @@ class Chart
     }
 
     /**
-     * Generate the scripts for the charts
+     * Build the raw JavaScript for the chart and register it with the asset bag.
+     *
+     * The result is intentionally left un-minified: ChartAssets minifies the
+     * combined script bundle once (in production) when it is rendered, so
+     * minifying here as well would be duplicated, throwaway work.
      *
      * @return string
      */
-    /**
-     * Generate and minify JavaScript required to render the chart.
-     *
-     * @return string
-     */
-    public function script()
+    protected function buildScript()
     {
-        $minifier = new JS();
+        $id = $this->getId();
 
         $refresh = '';
         $onHover = '';
@@ -607,31 +606,31 @@ class Chart
         $datasets = json_encode($this->formatDatasets());
 
         if (! is_null($this->api_url)) {
-            $chartApiUrl = "let {$this->getId()}_api_url = \"{$this->api_url}\";";
-            $chartLoader = "fetch({$this->getId()}_api_url)
+            $chartApiUrl = "let {$id}_api_url = \"{$this->api_url}\";";
+            $chartLoader = "fetch({$id}_api_url)
                 .then(data => data.json())
-                .then(data => { {$this->getId()}_create(data) });";
+                .then(data => { {$id}_create(data) });";
         } else {
-            $chartLoader = "{$this->getId()}_create({$datasets});";
+            $chartLoader = "{$id}_create({$datasets});";
         }
 
         if (! is_null($this->api_url)) {
             $refresh = <<<EOT
-        window.{$this->getId()}_refresh = function (url) {
-            document.getElementById("{$this->getId()}").style.display = 'none';
-            document.getElementById("{$this->getId()}_loader").style.display = 'flex';
+        window.{$id}_refresh = function (url) {
+            document.getElementById("{$id}").style.display = 'none';
+            document.getElementById("{$id}_loader").style.display = 'flex';
             if (typeof url !== 'undefined') {
-                {$this->getId()}_api_url = url;
+                {$id}_api_url = url;
             };
-            fetch({$this->getId()}_api_url)
+            fetch({$id}_api_url)
                 .then(data => data.json())
                 .then(data => {
-                    document.getElementById("{$this->getId()}_loader").style.display = 'none';
-                    document.getElementById("{$this->getId()}").style.display = 'block';
-                    document.getElementById("{$this->getId()}").style.height = '{$this->height}';
-                    document.getElementById("{$this->getId()}").style.width = '{$this->width}';
-                    {$this->getId()}.data.datasets = data;
-                    {$this->getId()}.update();
+                    document.getElementById("{$id}_loader").style.display = 'none';
+                    document.getElementById("{$id}").style.display = 'block';
+                    document.getElementById("{$id}").style.height = '{$this->height}';
+                    document.getElementById("{$id}").style.width = '{$this->width}';
+                    {$id}.data.datasets = data;
+                    {$id}.update();
                 });
         };
 EOT;
@@ -639,20 +638,20 @@ EOT;
 
         if ($this->hasClickEvents) {
             $onHover = <<<EOT
-        window.{$this->getId()}.options.onHover = function (event, chartElement) {
+        window.{$id}.options.onHover = function (event, chartElement) {
             event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
         };
 EOT;
         }
 
         $script = <<<EOT
-    window.{$this->getId()}_create = function (data) {
-        {$this->getId()}_rendered = true;
-        document.getElementById("{$this->getId()}_loader").style.display = 'none';
-        document.getElementById("{$this->getId()}").style.display = 'block';
-        document.getElementById("{$this->getId()}").style.height = '{$this->height}';
-        document.getElementById("{$this->getId()}").style.width = '{$this->width}';
-        window.{$this->getId()} = new Chart(document.getElementById("{$this->getId()}").getContext("2d"), {
+    window.{$id}_create = function (data) {
+        {$id}_rendered = true;
+        document.getElementById("{$id}_loader").style.display = 'none';
+        document.getElementById("{$id}").style.display = 'block';
+        document.getElementById("{$id}").style.height = '{$this->height}';
+        document.getElementById("{$id}").style.width = '{$this->width}';
+        window.{$id} = new Chart(document.getElementById("{$id}").getContext("2d"), {
             plugins: {$this->getFeatures()},
             type: "{$this->type}",
             data: {
@@ -665,17 +664,17 @@ EOT;
 
     {$refresh}
 
-let {$this->getId()}_rendered = false;
+let {$id}_rendered = false;
 {$chartApiUrl}
-let {$this->getId()}_load = function () {
-    if (document.getElementById("{$this->getId()}") && !{$this->getId()}_rendered) {
+let {$id}_load = function () {
+    if (document.getElementById("{$id}") && !{$id}_rendered) {
         {$chartLoader}
     }
 
     {$onHover}
 
     setTimeout(function () {
-        window.{$this->getId()}.options.onClick = function (event, items, chart) {
+        window.{$id}.options.onClick = function (event, items, chart) {
             let chartClickEvent = new CustomEvent("grafite-charts-click", {
                 detail: {
                     items: items,
@@ -687,13 +686,23 @@ let {$this->getId()}_load = function () {
         };
     }, 500);
 };
-window.addEventListener("load", {$this->getId()}_load);
-document.addEventListener("turbolinks:load", {$this->getId()}_load);
+window.addEventListener("load", {$id}_load);
+document.addEventListener("turbolinks:load", {$id}_load);
 EOT;
 
         app(ChartAssets::class)->addJs($script);
 
-        return $minifier->add($script)->minify();
+        return $script;
+    }
+
+    /**
+     * Generate and minify JavaScript required to render the chart.
+     *
+     * @return string
+     */
+    public function script()
+    {
+        return (new JS())->add($this->buildScript())->minify();
     }
 
     /**
@@ -704,12 +713,13 @@ EOT;
     public function html()
     {
         $opacity = ($this->loader) ? 1 : 0;
+        $id = $this->getId();
 
         $this->cdn();
-        $this->script();
+        $this->buildScript();
 
         $loader = <<<EOT
-<div id="{$this->getId()}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}; height: {$this->height};">
+<div id="{$id}_loader" style="display: flex; justify-content: center; opacity: {$opacity}; align-items: center; width: {$this->width}; height: {$this->height};">
     <svg width="50" height="50" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
@@ -745,7 +755,7 @@ EOT;
 EOT;
 
         return <<<EOT
-<canvas style="display: none;" id="{$this->getId()}" height="{$this->height}" width="{$this->width}"></canvas>
+<canvas style="display: none;" id="{$id}" height="{$this->height}" width="{$this->width}"></canvas>
 {$loader}
 EOT;
     }
