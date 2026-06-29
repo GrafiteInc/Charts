@@ -2,6 +2,8 @@
 
 namespace Grafite\Charts\Builder;
 
+use Illuminate\Support\Collection;
+
 class Dataset
 {
     public $name = 'Uknown';
