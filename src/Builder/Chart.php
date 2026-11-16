@@ -357,7 +357,7 @@ class Chart
         if (in_array($this->type, ['pie', 'doughnut'])) {
             $this->displayYAxis = false;
             $this->displayXAxis = false;
-            $this->displayAxis = false;
+            $this->displayAxes = false;
         }
 
         $this->options = [
