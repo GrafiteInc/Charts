@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.1.0] - 2026-11-16
+
+### Fix(chart)
+- update Chart.js config and zoom plugin for v4 compatibility
+
 ## [v3.0.7] - 2026-06-29
 
 ### Fix
