@@ -15,7 +15,7 @@ class Chart
      *
      * @var string
      */
-    public $version = '4.5.1';
+    public $version = '4.6.1';
 
     /**
      * Chart ID (set by default)
@@ -401,17 +401,26 @@ class Chart
                 ],
                 'title' => [
                     'display' => $this->displayTitle,
-                    'fontFamily' => $this->titleAttributes['font_family'],
-                    'fontSize' => $this->titleAttributes['font_size'],
-                    'fontColor' => $this->titleAttributes['color'],
-                    'fontStyle' => $this->titleAttributes['font_weight'],
+                    'color' => $this->titleAttributes['color'],
+                    'font' => [
+                        'family' => $this->titleAttributes['font_family'],
+                        'size' => $this->titleAttributes['font_size'],
+                        'weight' => $this->titleAttributes['font_weight'],
+                    ],
                     'text' => $this->title,
                 ],
                 'zoom' => [
                     'zoom' => [
-                        'enabled' => $this->zoom,
+                        'wheel' => [
+                            'enabled' => $this->zoom,
+                        ],
+                        'pinch' => [
+                            'enabled' => $this->zoom,
+                        ],
+                        'drag' => [
+                            'enabled' => $this->zoom,
+                        ],
                         'mode' => $this->zoomAxis,
-                        'drag' => true,
                     ],
                     'pan' => [
                         'enabled' => $this->zoom,
@@ -423,7 +432,8 @@ class Chart
                     'display' => $this->displayLegend,
                 ],
             ],
-            'animations' => [
+            'animations' => [],
+            'transitions' => [
                 'zoom' => [
                     'animation' => [
                         'duration' => 1000,
@@ -479,6 +489,11 @@ class Chart
         $this->datasets = $this->datasets();
 
         $this->setOptions($this->options());
+
+        // Ensure an empty animations config encodes as a JSON object, not an array
+        if (empty($this->options['animations'])) {
+            $this->options['animations'] = (object) [];
+        }
 
         if (empty($this->datasets)) {
             throw new Exception('Datasets are required', 1);
@@ -570,7 +585,7 @@ class Chart
 
         if ($this->zoom) {
             $plugins->push('//cdn.jsdelivr.net/npm/hammerjs@2.0.8');
-            $plugins->push('//cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0-beta.5/dist/chartjs-plugin-zoom.min.js');
+            $plugins->push('//cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js');
         }
 
         $cdnScripts = collect([
