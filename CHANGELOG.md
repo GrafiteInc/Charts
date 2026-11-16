@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.1.1] - 2026-11-16
+
+### Fix(chart)
+- correct displayAxes property assignment
+
+### Ci(php)
+- test on PHP 8.4 and broaden PHPUnit versions
+
 ## [v3.1.0] - 2026-11-16
 
 ### Fix(chart)
